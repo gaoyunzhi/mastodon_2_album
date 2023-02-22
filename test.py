@@ -5,11 +5,17 @@ import mastodon_2_album
 import yaml
 from telegram.ext import Updater
 import album_sender
+from mastodon import Mastodon
 
 with open('credential') as f:
-	credential = yaml.load(f, Loader=yaml.FullLoader)
+    credential = yaml.load(f, Loader=yaml.FullLoader)
 tele = Updater(credential['bot_token'], use_context=True)
-chat = tele.bot.get_chat(-1001198682178)
+chat = tele.bot.get_chat(credential['debug_group'])
+
+def testImp(status):
+    result = mastodon_2_album.get(status)
+    print(result)
+    album_sender.send(chat, result)
 
 def test():
     mastodon = Mastodon(
@@ -20,9 +26,9 @@ def test():
     for user in mastodon.account_following(my_id, limit=80):
         statuses = mastodon.account_statuses(user.id, limit=40)
         for status in statuses:
-        	# do some test here
-        	return
-	
+            testImp(status)
+            return
+    
 if __name__=='__main__':
-	test()
-	
+    test()
+    

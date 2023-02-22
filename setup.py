@@ -19,8 +19,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'pyyaml',
         'telegram_util',
+        'bs4',
     ],
     python_requires='>=3.0',
 )
