@@ -1,16 +1,16 @@
-# twitter_2_album
+# mastodon_2_album
 
-Return photo list and caption (markdown format) from twitter.
+Return photo list and caption (markdown format) from mastodon.
 
 ## usage
 
 ```
-import twitter_2_album
-result = twitter_2_album.get(url)
+import mastodon_2_album
+result = mastodon_2_album.get(status)
 result.imgs
 result.cap
 ```
 
 ## how to install
 
-`pip3 install twitter_2_album`
+`pip3 install mastodon_2_album`
