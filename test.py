@@ -15,7 +15,7 @@ chat = tele.bot.get_chat(credential['debug_group'])
 def testImp(status):
     result = mastodon_2_album.get(status)
     print(result)
-    album_sender.send(chat, result)
+    album_sender.send_v2(chat, result)
 
 def test():
     mastodon = Mastodon(
