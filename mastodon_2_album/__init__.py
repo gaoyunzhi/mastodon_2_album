@@ -126,7 +126,7 @@ def yieldUsersRawInfo(status):
         yield user.id, user.url + ' ' + user.display_name
 
 def getLog(status):
-    return 'count: %s ' % getReblogsCountRaw(status) + '%s' + ' %s %s' % (
+    return 'count: %s ' % getReblogsCountRaw(status) + '%s' + '%s %s' % (
         getUserInfo(getAuthor(status), 'author'), getUserInfo(getCommenter(status), 'commenter'))
 
 def getCoreContent(status):
