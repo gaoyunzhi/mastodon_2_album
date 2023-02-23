@@ -35,7 +35,16 @@ def testFindAccount(text):
         api_base_url = credential['mastodon_domain']
     )
     print(mastodon_2_album.findAccount(mastodon, text))
+
+def testStatusGet(status_search_key):
+    mastodon = Mastodon(
+        access_token = 'db/main_mastodon_secret',
+        api_base_url = credential['mastodon_domain']
+    )
+    status = mastodon.search_v2(status_search_key)['statuses'][0]
+    testImp(status)
     
 if __name__=='__main__':
     # test()
-    testFindAccount('79470')
+    # testFindAccount('79470')
+    testStatusGet('https://bgme.me/@ShrimpZhou/107432772239009987')

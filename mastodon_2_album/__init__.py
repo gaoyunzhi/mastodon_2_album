@@ -23,7 +23,8 @@ def getReblogsCountRaw(status):
     except:
         return '%d' % status.reblogs_count
 
-def getContentText(content):
+def getContentText(status):
+    content = status.content
     soup = BeautifulSoup(content, 'html.parser')
     content = str(soup).replace('<br/>', '\n')
     soup = BeautifulSoup(content, 'html.parser')
@@ -33,7 +34,10 @@ def getContentText(content):
         if len(text.split()) == 1 and text.startswith('@'):
             continue
         result.append(text)
-    return '\n\n'.join(result)
+    result = '\n\n'.join(result)
+    if status.spoiler_text:
+        result = status.spoiler_text + '\n\n' + result
+    return result
 
 def getMediaAttachments(status):
     media_attachments = status.media_attachments
@@ -66,12 +70,12 @@ def getVideo(status):
 
 def getOriginCap(status):
     try:
-        return getContentText(status.reblog.content)
+        return getContentText(status.reblog)
     except:
         return ''
 
 def getCap(status):
-    cap = getContentText(status.content)
+    cap = getContentText(status)
     origin_cap = getOriginCap(status)
     if not origin_cap:
         return cap
@@ -93,7 +97,7 @@ def get(status):
     return r
 
 def getHash(status):
-    cap = getContentText(status.content)
+    cap = getContentText(status)
     origin_cap = getOriginCap(status)
     raw_content = origin_cap + cap
     raw_content += ''.join(getImages(status))
@@ -135,7 +139,7 @@ def getCoreContent(status):
     result = []
     for user_id, user_info in yieldUsersRawInfo(status):
         result.append('%d %s' % (user_id, user_info))
-    result += [getContentText(status.content), getOriginCap(status)]
+    result += [getContentText(status), getOriginCap(status)]
     return '=' + ' '.join(result)
 
 def findAccount(mastodon, text):
