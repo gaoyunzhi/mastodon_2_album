@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
+
 # -*- coding: utf-8 -*-
 
 name = 'mastodon_2_album'
 
 from telegram_util import AlbumResult as Result
+from telegram_util import isInt
 from bs4 import BeautifulSoup
 import re
 
@@ -135,3 +137,14 @@ def getCoreContent(status):
         result.append('%d %s' % (user_id, user_info))
     result += [getContentText(status.content), getOriginCap(status)]
     return '=' + ' '.join(result)
+
+def findAccount(mastodon, text):
+    if isInt(text):
+        return mastodon.account(int(text))
+    if '/' in text:
+        pieces = text.split('/')
+        text = pieces[3][1:] + '@' + pieces[2]
+    account = mastodon.account_lookup(text)
+    if account:
+        return account
+    return mastodon.account_search(text)[0]

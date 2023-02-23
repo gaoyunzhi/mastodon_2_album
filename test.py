@@ -28,7 +28,14 @@ def test():
         for status in statuses:
             testImp(status)
             return
+
+def testFindAccount(text):
+    mastodon = Mastodon(
+        access_token = 'db/main_mastodon_secret',
+        api_base_url = credential['mastodon_domain']
+    )
+    print(mastodon_2_album.findAccount(mastodon, text))
     
 if __name__=='__main__':
-    test()
-    
+    # test()
+    testFindAccount('79470')
